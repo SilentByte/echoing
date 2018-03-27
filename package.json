@@ -25,6 +25,11 @@
   },
   "homepage": "https://github.com/SilentByte/echoing#readme",
   "dependencies": {
-    "argparse": "^1.0.10"
+    "argparse": "^1.0.10",
+    "chalk": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/argparse": "^1.0.33",
+    "@types/chalk": "^2.2.0"
   }
 }

@@ -23,6 +23,8 @@
 
 'use strict';
 
+const http = require('http');
+const chalk = require('chalk');
 const ArgumentParser = require('argparse').ArgumentParser;
 
 const echoing = new ArgumentParser({
@@ -31,4 +33,54 @@ const echoing = new ArgumentParser({
     description: 'Simple HTTP server that dumps incoming requests onto the command line.',
 });
 
+echoing.addArgument(['-p', '--port'], {
+    help: "Set the server's port.",
+    defaultValue: 3000,
+});
+
 const args = echoing.parseArgs();
+
+const info = (message) => {
+    console.log(message);
+};
+
+const error = (message) => {
+    console.error(chalk.red(message));
+};
+
+const noise = (message) => {
+    console.log(chalk.grey(message));
+};
+
+const listener = (req, res) => {
+    let body = '';
+
+    req.on('err', err => error(err));
+    req.on('data', data => body += data);
+
+    req.on('end', () => {
+        info(chalk.green(`${chalk.bold(req.method)} ${req.url} HTTP/${req.httpVersion}`));
+
+        for(const header in req.headers) {
+            if(req.headers.hasOwnProperty(header)) {
+                info(`${chalk.bold(header)}: ${req.headers[header]}`);
+            }
+        }
+
+        info('');
+
+        if(body.length) {
+            noise(body);
+            noise('');
+        }
+
+        res.writeHead(200);
+        res.end();
+    });
+
+};
+
+http.createServer(listener)
+    .listen(args.port, () => {
+        info(`Server is echoing on http://localhost:${chalk.bold(args.port)}.\n`);
+    });
