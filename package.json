@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/SilentByte/echoing/issues"
   },
-  "homepage": "https://github.com/SilentByte/echoing#readme"
+  "homepage": "https://github.com/SilentByte/echoing#readme",
+  "dependencies": {
+    "argparse": "^1.0.10"
+  }
 }
