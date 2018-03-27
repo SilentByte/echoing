@@ -1,0 +1,38 @@
+{
+  "name": "echoing",
+  "version": "1.0.0",
+  "description": "Simple HTTP server that dumps incoming requests onto the command line.",
+  "main": "echoing.js",
+  "bin": {
+    "echoing": "./echoing.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SilentByte/echoing.git"
+  },
+  "keywords": [
+    "HTTP",
+    "Server",
+    "REST",
+    "RESTful",
+    "JSON",
+    "requests"
+  ],
+  "author": "Rico A. Beti <rico.beti@silentbyte.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SilentByte/echoing/issues"
+  },
+  "homepage": "https://github.com/SilentByte/echoing#readme",
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "chalk": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/argparse": "^1.0.33",
+    "@types/chalk": "^2.2.0"
+  }
+}
