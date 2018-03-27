@@ -1,8 +1,11 @@
 {
   "name": "echoing",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Simple HTTP server that dumps incoming requests onto the command line.",
   "main": "echoing.js",
+  "bin": {
+    "echoing": "./echoing.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

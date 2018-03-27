@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 ////
 //// MIT License
 ////
@@ -28,7 +29,7 @@ const chalk = require('chalk');
 const ArgumentParser = require('argparse').ArgumentParser;
 
 const echoing = new ArgumentParser({
-    version: '0.1.0',
+    version: '1.0.0',
     addHelp: true,
     description: 'Simple HTTP server that dumps incoming requests onto the command line.',
 });
