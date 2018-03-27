@@ -40,6 +40,10 @@ echoing.addArgument(['-p', '--port'], {
 
 const args = echoing.parseArgs();
 
+const heading = message => {
+    console.log(chalk.yellow(message));
+};
+
 const info = message => {
     console.log(message);
 };
@@ -88,5 +92,10 @@ const listener = (req, res) => {
 
 http.createServer(listener)
     .listen(args.port, () => {
-        info(`Server is echoing on http://localhost:${chalk.bold(args.port)}.\n`);
+        heading('Server is echoing on:');
+        info(`  http://localhost:${chalk.bold(args.port)}`);
+        info(`  http://127.0.0.1:${chalk.bold(args.port)}`);
+        info('');
+        info('Hit CTRL-C to stop the server...');
+        info('');
     });
