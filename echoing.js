@@ -40,16 +40,22 @@ echoing.addArgument(['-p', '--port'], {
 
 const args = echoing.parseArgs();
 
-const info = (message) => {
+const info = message => {
     console.log(message);
 };
 
-const error = (message) => {
+const error = message => {
     console.error(chalk.red(message));
 };
 
-const noise = (message) => {
+const noise = message => {
     console.log(chalk.grey(message));
+};
+
+const capitalize = text => {
+    return text
+        .toLowerCase()
+        .replace(/\b\w/g, initial => initial.toUpperCase());
 };
 
 const listener = (req, res) => {
@@ -63,7 +69,7 @@ const listener = (req, res) => {
 
         for(const header in req.headers) {
             if(req.headers.hasOwnProperty(header)) {
-                info(`${chalk.bold(header)}: ${req.headers[header]}`);
+                info(`${chalk.bold(capitalize(header))}: ${req.headers[header]}`);
             }
         }
 
