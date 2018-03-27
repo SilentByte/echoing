@@ -34,11 +34,22 @@ const echoing = new ArgumentParser({
 });
 
 echoing.addArgument(['-p', '--port'], {
+    action: 'store',
     help: "Set the server's port.",
+    type: 'int',
     defaultValue: 3000,
 });
 
+echoing.addArgument(['--no-color'], {
+    action: 'storeTrue',
+    help: 'Do not print any colors.',
+});
+
 const args = echoing.parseArgs();
+
+if(args.noColor) {
+    chalk.level = 0;
+}
 
 const heading = message => {
     console.log(chalk.yellow(message));
