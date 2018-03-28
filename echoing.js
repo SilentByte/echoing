@@ -25,6 +25,10 @@
 'use strict';
 
 const http = require('http');
+const fs = require('fs');
+const url = require('url');
+const path = require('path');
+
 const chalk = require('chalk');
 const ArgumentParser = require('argparse').ArgumentParser;
 
@@ -45,6 +49,12 @@ echoing.addArgument(['--no-bounce'], {
     action: 'storeFalse',
     dest: 'bounce',
     help: 'Do not bounce request body back to sender.',
+});
+
+echoing.addArgument(['--no-serve'], {
+    action: 'storeFalse',
+    dest: 'serve',
+    help: 'Do not attempt to serve local files on GET requests.',
 });
 
 echoing.addArgument(['--no-color'], {
@@ -81,6 +91,15 @@ const capitalize = text => {
         .replace(/\b\w/g, initial => initial.toUpperCase());
 };
 
+const bounce = (req, res, body) => {
+    const contentType = req.headers['content-type'];
+    if(contentType) {
+        res.setHeader('Content-Type', contentType);
+    }
+
+    res.write(body);
+};
+
 const listener = (req, res) => {
     let body = '';
 
@@ -97,24 +116,36 @@ const listener = (req, res) => {
         }
 
         info('');
-
-        res.statusCode = 200;
-
         if(body.length) {
             noise(body);
             noise('');
-
-            if(args.bounce) {
-                const contentType = req.headers['content-type'];
-                if(contentType) {
-                    res.setHeader('Content-Type', contentType);
-                }
-
-                res.write(body);
-            }
         }
 
-        res.end();
+        res.statusCode = 200;
+
+        if(args.serve && req.method === 'GET') {
+            const uri = url.parse(req.url).pathname;
+            const filename = uri === '/' ? 'index.html' : path.join(process.cwd(), uri);
+            fs.createReadStream(filename)
+                .on('error', () => {
+                    if(args.bounce) {
+                        heading(`Local file .${filename} not found, bouncing request body...\n`);
+                        bounce(req, res, body);
+                    }
+                    else {
+                        heading(`Local file ${filename} not found.\n`);
+                    }
+
+                    res.end();
+                }).pipe(res);
+        }
+        else if(args.bounce) {
+            bounce(req, res, body);
+            res.end();
+        }
+        else {
+            res.end();
+        }
     });
 
 };
