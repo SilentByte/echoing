@@ -48,7 +48,7 @@ echoing.addArgument(['dir'], {
 
 echoing.addArgument(['-p', '--port'], {
     action: 'store',
-    help: "Set the server's port.",
+    help: "Set the server's port (default: 3000).",
     type: 'int',
     defaultValue: 3000,
 });
