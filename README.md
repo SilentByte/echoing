@@ -1,7 +1,8 @@
 
 Echoing
 =======
-[![MIT License](https://img.shields.io/badge/license-MIT%20License-blue.svg)](https://opensource.org/licenses/MIT)
+[![MIT License](https://img.shields.io/badge/license-MIT%20License-blue.svg)](https://opensource.org/licenses/MIT) [![npm](https://img.shields.io/npm/v/echoing.svg)](https://www.npmjs.com/package/echoing)
+
 
 Simple HTTP server that dumps incoming requests onto the command line.
 
