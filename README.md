@@ -6,6 +6,8 @@ Echoing
 
 Simple HTTP server that dumps incoming requests onto the command line.
 
+[![npm](./cli.png)](https://www.npmjs.com/package/echoing)
+
 
 ## Installation
 
