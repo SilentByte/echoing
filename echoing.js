@@ -42,13 +42,14 @@ echoing.addArgument(['-p', '--port'], {
 });
 
 echoing.addArgument(['--no-color'], {
-    action: 'storeTrue',
+    action: 'storeFalse',
+    dest: 'color',
     help: 'Do not print any colors.',
 });
 
 const args = echoing.parseArgs();
 
-if(args.noColor) {
+if(!args.color) {
     chalk.level = 0;
 }
 
