@@ -41,14 +41,21 @@ echoing.addArgument(['-p', '--port'], {
     defaultValue: 3000,
 });
 
+echoing.addArgument(['--no-bounce'], {
+    action: 'storeFalse',
+    dest: 'bounce',
+    help: 'Do not bounce request body back to sender.',
+});
+
 echoing.addArgument(['--no-color'], {
-    action: 'storeTrue',
+    action: 'storeFalse',
+    dest: 'color',
     help: 'Do not print any colors.',
 });
 
 const args = echoing.parseArgs();
 
-if(args.noColor) {
+if(!args.color) {
     chalk.level = 0;
 }
 
@@ -91,12 +98,22 @@ const listener = (req, res) => {
 
         info('');
 
+        res.statusCode = 200;
+
         if(body.length) {
             noise(body);
             noise('');
+
+            if(args.bounce) {
+                const contentType = req.headers['content-type'];
+                if(contentType) {
+                    res.setHeader('Content-Type', contentType);
+                }
+
+                res.write(body);
+            }
         }
 
-        res.writeHead(200);
         res.end();
     });
 

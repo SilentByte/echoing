@@ -19,7 +19,7 @@ npm install -g echoing
 
 The server can be started by calling `echoing` on the command line.
 
-An optional port number may be specified using the `-p` or `--port` option. Color output is enabled by default but can be turned off with the `--no-color` flag.
+An optional port number may be specified using the `-p` or `--port` option. Color output is enabled by default but can be turned off with the `--no-color` flag. Specify `--no-bounce` to prevent the server from bouncing back the request body.
 
 ```
 $ echoing [-h] [-v] [-p PORT] [--no-color]
@@ -30,6 +30,7 @@ Optional arguments:
   -h, --help            Show this help message and exit.
   -v, --version         Show program's version number and exit.
   -p PORT, --port PORT  Set the server's port.
+  --no-bounce           Do not bounce request body back to sender.
   --no-color            Do not print any colors.
 ```
 
