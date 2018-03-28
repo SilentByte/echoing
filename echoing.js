@@ -33,7 +33,7 @@ const chalk = require('chalk');
 const ArgumentParser = require('argparse').ArgumentParser;
 
 const echoing = new ArgumentParser({
-    version: '1.0.0',
+    version: require('./package.json').version,
     addHelp: true,
     description: 'Simple HTTP server that dumps incoming requests onto the command line.',
 });
