@@ -38,6 +38,14 @@ const echoing = new ArgumentParser({
     description: 'Simple HTTP server that dumps incoming requests onto the command line.',
 });
 
+echoing.addArgument(['dir'], {
+    action: 'store',
+    help: "The server's working directory.",
+    nargs: '?',
+    type: 'string',
+    defaultValue: './',
+});
+
 echoing.addArgument(['-p', '--port'], {
     action: 'store',
     help: "Set the server's port.",
@@ -64,6 +72,7 @@ echoing.addArgument(['--no-color'], {
 });
 
 const args = echoing.parseArgs();
+args.dir = path.resolve(process.cwd(), args.dir);
 
 if(!args.color) {
     chalk.level = 0;
@@ -125,7 +134,7 @@ const listener = (req, res) => {
 
         if(args.serve && req.method === 'GET') {
             const uri = url.parse(req.url).pathname;
-            const filename = uri === '/' ? 'index.html' : path.join(process.cwd(), uri);
+            const filename = uri === '/' ? 'index.html' : path.join(args.dir, uri);
             fs.createReadStream(filename)
                 .on('error', () => {
                     if(args.bounce) {
@@ -152,7 +161,13 @@ const listener = (req, res) => {
 
 http.createServer(listener)
     .listen(args.port, () => {
-        heading('Server is echoing on:');
+        if(args.serve) {
+            heading(`Server is echoing ${args.dir} on:`);
+        }
+        else {
+            heading(`Server is echoing on:`);
+        }
+
         info(`  http://localhost:${chalk.bold(args.port)}`);
         info(`  http://127.0.0.1:${chalk.bold(args.port)}`);
         info('');
