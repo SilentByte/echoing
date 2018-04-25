@@ -30,6 +30,8 @@ const url = require('url');
 const path = require('path');
 
 const chalk = require('chalk');
+const jsome = require('jsome');
+const typeis = require('type-is');
 const ArgumentParser = require('argparse').ArgumentParser;
 
 const echoing = new ArgumentParser({
@@ -69,6 +71,12 @@ echoing.addArgument(['--no-color'], {
     action: 'storeFalse',
     dest: 'color',
     help: 'Do not print any colors.',
+});
+
+echoing.addArgument(['--pretty'], {
+  action: 'storeTrue',
+  dest: 'pretty',
+  help: 'Enable pretty JSON output.',
 });
 
 const args = echoing.parseArgs();
@@ -126,7 +134,11 @@ const listener = (req, res) => {
 
         info('');
         if(body.length) {
-            noise(body);
+            if (args.pretty && typeis(req, ['json'])) {
+              jsome.parse(body);
+            } else {
+              noise(body);
+            }
             noise('');
         }
 
